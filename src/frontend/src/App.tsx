@@ -1,4 +1,5 @@
 import { Toaster } from "@/components/ui/sonner";
+import AdminPanel from "./components/AdminPanel";
 import ContactSection from "./components/ContactSection";
 import DifferentiatorSection from "./components/DifferentiatorSection";
 import Footer from "./components/Footer";
@@ -7,21 +8,25 @@ import Navigation from "./components/Navigation";
 import PricingSection from "./components/PricingSection";
 import TechnologySection from "./components/TechnologySection";
 import WhatWeDoSection from "./components/WhatWeDoSection";
-import WhyChangesEverythingSection from "./components/WhyChangesEverythingSection";
 import WhyUsSection from "./components/WhyUsSection";
 
+const isAdminRoute = window.location.pathname === "/admin";
+
 export default function App() {
+  if (isAdminRoute) {
+    return <AdminPanel />;
+  }
+
   return (
     <div className="relative min-h-screen bg-background text-foreground overflow-x-hidden">
       <div className="noise-bg" />
       <Navigation />
       <main>
         <HeroSection />
-        <WhyChangesEverythingSection />
+        <DifferentiatorSection />
         <WhatWeDoSection />
         <WhyUsSection />
         <PricingSection />
-        <DifferentiatorSection />
         <TechnologySection />
         <ContactSection />
       </main>
