@@ -2,7 +2,6 @@ import { Button } from "@/components/ui/button";
 import { Menu, X } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
 import { useEffect, useState } from "react";
-import WalletConnect from "./WalletConnect";
 
 const links = [
   { label: "WHAT WE DO", href: "#what-we-do" },
@@ -58,7 +57,7 @@ export default function Navigation() {
           data-ocid="nav.link"
         >
           <span className="w-5 h-5 bg-orange rotate-45 inline-block" />
-          <span className="text-foreground">APEX</span>
+          <span className="text-foreground">APEX ARCHITECTS</span>
         </button>
 
         {/* Desktop Links */}
@@ -81,9 +80,8 @@ export default function Navigation() {
           ))}
         </ul>
 
-        {/* Right side: WalletConnect + CTA */}
+        {/* Right side: CTA */}
         <div className="hidden md:flex items-center gap-3">
-          <WalletConnect />
           <Button
             onClick={() => handleNav("#contact")}
             data-ocid="nav.primary_button"
@@ -127,7 +125,6 @@ export default function Navigation() {
                 </li>
               ))}
               <li className="flex flex-col gap-3">
-                <WalletConnect />
                 <Button
                   onClick={() => handleNav("#contact")}
                   className="w-full bg-orange text-white font-display font-bold text-sm rounded-none"

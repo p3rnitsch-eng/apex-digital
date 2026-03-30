@@ -1,10 +1,10 @@
 import { motion } from "motion/react";
 
 const points = [
-  "No traditional hosting setup",
-  "Strong security model",
-  "Full-stack architecture in one system",
-  "Fewer points of failure",
+  "No hosting bill. Ever.",
+  "500GB smart contract storage",
+  "Served in under 2 seconds, globally",
+  "No server to hack",
 ];
 
 export default function TechnologySection() {
@@ -26,7 +26,7 @@ export default function TechnologySection() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6, delay: 0.1 }}
-          className="font-display font-bold text-4xl md:text-6xl lg:text-7xl text-foreground mb-6 leading-none tracking-tight"
+          className="max-w-5xl font-display text-4xl font-bold uppercase leading-[0.94] tracking-tight text-foreground mb-6 md:text-6xl lg:text-7xl"
         >
           POWERED BY THE INTERNET COMPUTER
         </motion.h2>
@@ -38,7 +38,7 @@ export default function TechnologySection() {
           transition={{ duration: 0.5, delay: 0.2 }}
           className="text-muted-foreground max-w-xl mb-16 font-body"
         >
-          We use modern infrastructure to build cleaner, more stable systems.
+          This site runs entirely on the Internet Computer. No AWS. No hosting account. No single point of failure. You&apos;re looking at what we build.
         </motion.p>
 
         <div
@@ -70,7 +70,7 @@ export default function TechnologySection() {
           transition={{ duration: 0.5, delay: 0.4 }}
           className="text-muted-foreground text-center mt-12 font-body italic"
         >
-          You don't need to understand the tech. Just enjoy the result.
+          The infrastructure is complex. Your experience won&apos;t be.
         </motion.p>
       </div>
     </section>

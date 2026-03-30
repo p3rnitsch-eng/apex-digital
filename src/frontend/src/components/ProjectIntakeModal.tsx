@@ -1,7 +1,7 @@
 import { Checkbox } from "@/components/ui/checkbox";
 import { AnimatePresence, motion } from "motion/react";
 import { useState } from "react";
-import type { backendInterface } from "../backend.d";
+import type { backendInterface } from "../backend";
 import { useActor } from "../hooks/useActor";
 import { useEvmWallet } from "../hooks/useEvmWallet";
 import WalletPickerModal from "./WalletPickerModal";
@@ -158,11 +158,17 @@ export default function ProjectIntakeModal({
   const [step, setStep] = useState<"form" | "review" | "success">("form");
   const [form, setForm] = useState<FormData>(initialForm);
   const [projectId, setProjectId] = useState("");
+  const [leadSaved, setLeadSaved] = useState(false);
+  const [successTitle, setSuccessTitle] = useState("REQUEST RECEIVED");
+  const [successBody, setSuccessBody] = useState(
+    "We will be in touch within 24 hours.",
+  );
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [confirmed, setConfirmed] = useState(false);
   const [walletPickerOpen, setWalletPickerOpen] = useState(false);
   const [isPaying, setIsPaying] = useState(false);
   const [payError, setPayError] = useState("");
+  const [submitError, setSubmitError] = useState("");
 
   const { actor } = useActor();
   const backend = actor as unknown as backendInterface;
@@ -177,48 +183,72 @@ export default function ProjectIntakeModal({
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setSubmitError("");
+    setPayError("");
+    if (!backend) {
+      setSubmitError(
+        "The backend is unavailable right now. Please try again in a moment.",
+      );
+      return;
+    }
     setIsSubmitting(true);
 
-    // Generate a local project ID immediately so review always has one
-    const localId = `APEX-${Date.now().toString(36).toUpperCase()}`;
-    setProjectId(localId);
-
-    // Attempt to persist to backend, but never block the review transition
-    if (backend) {
-      try {
-        const id = await backend.submitProject(
-          planName,
-          form.clientName,
-          form.email,
-          form.businessName,
-          form.currentWebsite,
-          form.businessType,
-          form.whatTheyNeed,
-          form.projectDescription,
-          form.numberOfPages,
-          form.needsContactForm === "yes",
-          form.needsBooking === "yes",
-          form.needsPaymentIntegration === "yes",
-          form.needsDashboard === "yes",
-          form.needsContentWriting === "yes",
-          form.needsBranding === "yes",
-          form.inspirationLinks,
-          form.timeline,
-          form.contentReadiness,
-          form.additionalNotes,
-        );
-        // Use backend-assigned ID if available
-        setProjectId(id);
-      } catch {
-        // Backend unavailable — keep the local ID, still advance to review
-      }
+    try {
+      const id = await backend.submitProject(
+        planName,
+        form.clientName,
+        form.email,
+        form.businessName,
+        form.currentWebsite,
+        form.businessType,
+        form.whatTheyNeed,
+        form.projectDescription,
+        form.numberOfPages,
+        form.needsContactForm === "yes",
+        form.needsBooking === "yes",
+        form.needsPaymentIntegration === "yes",
+        form.needsDashboard === "yes",
+        form.needsContentWriting === "yes",
+        form.needsBranding === "yes",
+        form.inspirationLinks,
+        form.timeline,
+        form.contentReadiness,
+        form.additionalNotes,
+      );
+      setProjectId(id);
+      setLeadSaved(true);
+      setStep("review");
+    } catch {
+      setSubmitError(
+        "We could not save your project request. Nothing has been submitted yet.",
+      );
+    } finally {
+      setIsSubmitting(false);
     }
-
-    setIsSubmitting(false);
-    setStep("review");
   };
 
   const doPayment = async () => {
+    if (!backend || !projectId) {
+      setPayError("Your project request must be saved before payment.");
+      return;
+    }
+
+    if (isEnterprise) {
+      setSuccessTitle("CONSULTATION REQUESTED");
+      setSuccessBody("Your request is registered and we will reach out shortly.");
+      setStep("success");
+      return;
+    }
+
+    if (OWNER_ETH_ADDRESS === "0x0000000000000000000000000000000000000000") {
+      setSuccessTitle("REQUEST RECEIVED");
+      setSuccessBody(
+        "Payment is not configured yet. Your project request has been saved as pending and we will follow up manually.",
+      );
+      setStep("success");
+      return;
+    }
+
     if (!isConnected || !address) {
       setWalletPickerOpen(true);
       return;
@@ -231,9 +261,14 @@ export default function ProjectIntakeModal({
         method: "eth_sendTransaction",
         params: [{ from: address, to: OWNER_ETH_ADDRESS, value }],
       });
-      if (backend) {
-        await backend.updatePaymentStatus(projectId, "paid", txHash);
+      const updated = await backend.updatePaymentStatus(projectId, "paid", txHash);
+      if (!updated) {
+        throw new Error("Payment status could not be recorded.");
       }
+      setSuccessTitle("PAYMENT SUBMITTED");
+      setSuccessBody(
+        "Your transaction was submitted and the project request is now attached to your CRM record.",
+      );
       setStep("success");
     } catch (err: any) {
       setPayError(err?.message ?? "Transaction failed or was rejected.");
@@ -591,6 +626,14 @@ export default function ProjectIntakeModal({
                   >
                     {isSubmitting ? "SUBMITTING..." : "REVIEW MY PROJECT"}
                   </button>
+                  {submitError && (
+                    <p
+                      className="font-mono-label text-[10px] text-red-400 tracking-wider"
+                      data-ocid="intake.error_state"
+                    >
+                      {submitError}
+                    </p>
+                  )}
                 </motion.form>
               )}
 
@@ -612,6 +655,19 @@ export default function ProjectIntakeModal({
                       <span className="text-orange">{projectId}</span>
                     </p>
                   </div>
+
+                  {leadSaved && (
+                    <div className="mb-6 border border-[oklch(0.18_0_0)] bg-[linear-gradient(180deg,rgba(255,92,0,0.08),rgba(10,10,10,0.4))] px-4 py-4">
+                      <p className="font-mono-label text-[10px] tracking-[0.22em] text-orange">
+                        SAVED TO CRM
+                      </p>
+                      <p className="mt-2 font-body text-sm leading-6 text-[oklch(0.72_0_0)]">
+                        Your project request is already stored in the Apex CRM.
+                        If you close this window before paying, the lead stays
+                        saved as pending and can still be followed up.
+                      </p>
+                    </div>
+                  )}
 
                   <div className="border border-[oklch(0.16_0_0)] divide-y divide-[oklch(0.14_0_0)] mb-6">
                     {summaryEntries.map((entry) => (
@@ -658,27 +714,45 @@ export default function ProjectIntakeModal({
                   )}
 
                   {isEnterprise ? (
-                    <button
-                      type="button"
-                      disabled={!confirmed}
-                      onClick={() => setStep("success")}
-                      data-ocid="intake.confirm_button"
-                      className="w-full py-4 bg-orange hover:bg-[oklch(0.6_0.22_37)] text-white font-display font-bold text-sm tracking-widest transition-colors duration-200 disabled:opacity-30"
-                    >
-                      CONFIRM CONSULTATION REQUEST
-                    </button>
+                    <div className="space-y-3">
+                      <button
+                        type="button"
+                        disabled={!confirmed}
+                        onClick={doPayment}
+                        data-ocid="intake.confirm_button"
+                        className="w-full py-4 bg-orange hover:bg-[oklch(0.6_0.22_37)] text-white font-display font-bold text-sm tracking-widest transition-colors duration-200 disabled:opacity-30"
+                      >
+                        CONFIRM CONSULTATION REQUEST
+                      </button>
+                      <button
+                        type="button"
+                        onClick={onClose}
+                        className="w-full border border-[oklch(0.24_0_0)] py-4 font-mono-label text-[11px] tracking-[0.18em] text-[oklch(0.68_0_0)] transition-colors hover:border-orange hover:text-orange"
+                      >
+                        CLOSE & KEEP REQUEST SAVED
+                      </button>
+                    </div>
                   ) : (
-                    <button
-                      type="button"
-                      disabled={!confirmed || isPaying}
-                      onClick={doPayment}
-                      data-ocid="intake.primary_button"
-                      className="w-full py-4 bg-orange hover:bg-[oklch(0.6_0.22_37)] text-white font-display font-bold text-sm tracking-widest transition-colors duration-200 disabled:opacity-30"
-                    >
-                      {isPaying
-                        ? "PROCESSING PAYMENT..."
-                        : "PAY & START PROJECT"}
-                    </button>
+                    <div className="space-y-3">
+                      <button
+                        type="button"
+                        disabled={!confirmed || isPaying}
+                        onClick={doPayment}
+                        data-ocid="intake.primary_button"
+                        className="w-full py-4 bg-orange hover:bg-[oklch(0.6_0.22_37)] text-white font-display font-bold text-sm tracking-widest transition-colors duration-200 disabled:opacity-30"
+                      >
+                        {isPaying
+                          ? "PROCESSING PAYMENT..."
+                          : "CONTINUE TO PAYMENT"}
+                      </button>
+                      <button
+                        type="button"
+                        onClick={onClose}
+                        className="w-full border border-[oklch(0.24_0_0)] py-4 font-mono-label text-[11px] tracking-[0.18em] text-[oklch(0.68_0_0)] transition-colors hover:border-orange hover:text-orange"
+                      >
+                        CLOSE & KEEP REQUEST SAVED
+                      </button>
+                    </div>
                   )}
                 </motion.div>
               )}
@@ -710,15 +784,13 @@ export default function ProjectIntakeModal({
                     </svg>
                   </div>
                   <h3 className="font-display font-bold text-3xl text-foreground mb-2">
-                    {isEnterprise
-                      ? "CONSULTATION REQUESTED"
-                      : "PROJECT STARTED"}
+                    {successTitle}
                   </h3>
                   <p className="font-mono-label text-orange text-xs tracking-widest mb-6">
                     {projectId}
                   </p>
                   <p className="font-body text-[oklch(0.6_0_0)] text-sm">
-                    We will be in touch within 24 hours.
+                    {successBody}
                   </p>
                   <button
                     type="button"

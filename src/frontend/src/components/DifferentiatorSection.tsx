@@ -7,16 +7,26 @@ export default function DifferentiatorSection() {
     <section id="why-changes" className="py-28 md:py-36 relative">
       <div className="absolute inset-0 dot-grid-bg opacity-40" />
 
-      <div className="relative max-w-5xl mx-auto px-6">
+      <div className="relative max-w-7xl mx-auto px-6">
+        <motion.p
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5 }}
+          className="font-mono-label text-orange mb-4"
+        >
+          WHY THIS IS DIFFERENT
+        </motion.p>
+
         {/* Heading */}
         <motion.h2
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
-          className="font-display font-bold text-4xl md:text-5xl lg:text-6xl text-foreground mb-16 leading-none tracking-tight max-w-3xl"
+          className="max-w-5xl font-display text-4xl font-bold uppercase leading-[0.94] tracking-tight text-foreground mb-16 md:text-6xl lg:text-7xl"
         >
-          WHY THIS CHANGES EVERYTHING
+          WHY THE INTERNET RUNS DIFFERENTLY FROM HERE
         </motion.h2>
 
         {/* Bento Grid */}
@@ -50,11 +60,10 @@ export default function DifferentiatorSection() {
                 </div>
                 <div className="text-center space-y-2">
                   <h2 className="text-xl font-bold text-white font-display tracking-tight">
-                    Tamper-Proof
+                    Tamper-Proof by Design
                   </h2>
-                  <p className="text-sm text-muted-foreground max-w-[200px] mx-auto">
-                    Every transaction is cryptographically verified and
-                    immutable on-chain.
+                  <p className="text-sm text-muted-foreground max-w-[240px] mx-auto">
+                    Your site runs exactly as deployed, cryptographically verified on every request. No hosting provider can alter it, censor it, or take it down.
                   </p>
                 </div>
               </CardContent>

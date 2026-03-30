@@ -16,9 +16,9 @@ const reasons = [
   },
   {
     icon: Wrench,
-    title: "No Maintenance Cycle",
+    title: "Upgrades Without Data Loss",
     description:
-      "No updates breaking things. No version conflicts. No constant fixes.",
+      "The Internet Computer can be updated without losing site data, unlike traditional websites that risk breaking state during major changes.",
   },
 ];
 
@@ -27,7 +27,7 @@ export default function WhyUsSection() {
     <section id="why-us" className="py-28 md:py-36 relative">
       <div className="absolute inset-0 dot-grid-bg opacity-40" />
 
-      <div className="relative max-w-7xl mx-auto px-6">
+      <div className="relative mx-auto max-w-7xl px-6">
         <motion.p
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -43,7 +43,7 @@ export default function WhyUsSection() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6, delay: 0.1 }}
-          className="font-display font-bold text-4xl md:text-5xl lg:text-6xl text-foreground mb-16 leading-none tracking-tight max-w-3xl"
+          className="max-w-5xl font-display text-4xl font-bold uppercase leading-[0.94] tracking-tight text-foreground md:text-6xl lg:text-7xl mb-16"
         >
           WHY THIS IS DIFFERENT
         </motion.h2>

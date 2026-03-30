@@ -8,11 +8,11 @@ import ProjectIntakeModal from "./ProjectIntakeModal";
 const plans = [
   {
     name: "STARTER",
-    price: "$200",
+    price: "$400",
     period: "",
-    description: "For simple business websites.",
+    description: "For a simple one-page business site.",
     features: [
-      "1 to 2 pages",
+      "1 page only",
       "Mobile responsive",
       "Contact form",
       "Fast delivery",
@@ -22,11 +22,11 @@ const plans = [
   },
   {
     name: "GROWTH",
-    price: "$500",
+    price: "$975",
     period: "",
     description: "For businesses that need more than just a website.",
     features: [
-      "3 to 6 pages",
+      "2 to 6 pages",
       "Custom design",
       "Forms with data capture",
       "Light backend functionality",
@@ -37,7 +37,7 @@ const plans = [
   },
   {
     name: "PRO",
-    price: "$2,500",
+    price: "$3,000",
     period: "",
     description: "Full system, not just a website.",
     features: [
@@ -94,7 +94,7 @@ export default function PricingSection() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6, delay: 0.1 }}
-          className="font-display font-bold text-4xl md:text-6xl lg:text-7xl text-foreground mb-6 leading-none tracking-tight"
+          className="max-w-5xl font-display text-4xl font-bold uppercase leading-[0.94] tracking-tight text-foreground mb-6 md:text-6xl lg:text-7xl"
         >
           SIMPLE PRICING
         </motion.h2>

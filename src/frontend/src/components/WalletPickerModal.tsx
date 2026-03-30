@@ -28,7 +28,7 @@ export default function WalletPickerModal({
       >
         <DialogHeader className="px-6 pt-6 pb-4 border-b border-[oklch(0.18_0_0)]">
           <DialogTitle className="font-mono text-xs tracking-widest text-[#FF5C00] uppercase">
-            CONNECT WALLET
+            PAYMENT OPTIONS
           </DialogTitle>
         </DialogHeader>
 
@@ -119,12 +119,9 @@ export default function WalletPickerModal({
                 />
               </svg>
             </div>
-            <div className="flex-1 min-w-0">
-              <p className="font-mono text-xs tracking-widest text-white group-hover:text-[#FF5C00] transition-colors">
-                METAMASK
-              </p>
-              <p className="font-mono text-[10px] text-[oklch(0.5_0_0)] mt-0.5">
-                Connect via browser extension
+            <div className="flex-1 min-w-0 text-right">
+              <p className="font-mono text-[10px] tracking-widest text-[oklch(0.5_0_0)] group-hover:text-[#FF5C00] transition-colors">
+                AVAILABLE NOW
               </p>
             </div>
           </button>
@@ -150,12 +147,9 @@ export default function WalletPickerModal({
               </svg>
             </div>
             <div className="flex-1 min-w-0">
-              <div className="flex items-center gap-2">
-                <p className="font-mono text-xs tracking-widest text-[oklch(0.5_0_0)]">
-                  WALLETCONNECT
-                </p>
+              <div className="flex items-center justify-end gap-2">
                 <span className="font-mono text-[9px] tracking-wider border border-[oklch(0.3_0_0)] text-[oklch(0.45_0_0)] px-1.5 py-0.5">
-                  SOON
+                  COMING SOON
                 </span>
               </div>
               <div className="flex items-start gap-1 mt-0.5">
@@ -164,6 +158,55 @@ export default function WalletPickerModal({
                   Add your WalletConnect Project ID to enable
                 </p>
               </div>
+            </div>
+          </div>
+
+          {/* Stripe placeholder */}
+          <div className="w-full flex items-center gap-4 border border-[oklch(0.2_0_0)] bg-transparent px-4 py-4 opacity-60 cursor-not-allowed">
+            <div className="w-9 h-9 flex items-center justify-center bg-[oklch(0.14_0_0)] border border-[oklch(0.22_0_0)] shrink-0">
+              <div className="flex items-center gap-1">
+                <div className="rounded-sm bg-white px-1.5 py-1 text-[8px] font-bold tracking-wide text-[#1A1F71]">
+                  VISA
+                </div>
+                <div className="flex items-center rounded-sm bg-white px-1.5 py-1">
+                  <span className="h-2.5 w-2.5 rounded-full bg-[#EB001B]" />
+                  <span className="-ml-1 h-2.5 w-2.5 rounded-full bg-[#F79E1B]" />
+                </div>
+              </div>
+            </div>
+            <div className="flex-1 min-w-0 text-right">
+              <div className="flex items-center justify-end gap-2">
+                <span className="font-mono text-[9px] tracking-wider border border-[oklch(0.3_0_0)] text-[oklch(0.45_0_0)] px-1.5 py-0.5">
+                  COMING SOON
+                </span>
+              </div>
+              <p className="mt-2 font-mono text-[10px] text-[oklch(0.45_0_0)]">
+                Card checkout will be available soon for standard client payments.
+              </p>
+            </div>
+          </div>
+
+          {/* PayPal placeholder */}
+          <div className="w-full flex items-center gap-4 border border-[oklch(0.2_0_0)] bg-transparent px-4 py-4 opacity-60 cursor-not-allowed">
+            <div className="w-9 h-9 flex items-center justify-center bg-[oklch(0.14_0_0)] border border-[oklch(0.22_0_0)] shrink-0">
+              <div className="rounded-sm bg-[#003087] px-2 py-1">
+                <span className="text-[8px] font-black tracking-wide text-white">
+                  Pay
+                </span>
+                <span className="text-[8px] font-black tracking-wide text-[#009CDE]">
+                  Pal
+                </span>
+              </div>
+            </div>
+            <div className="flex-1 min-w-0 text-right">
+              <div className="flex items-center justify-end gap-2">
+                <span className="font-mono text-[9px] tracking-wider border border-[oklch(0.3_0_0)] text-[oklch(0.45_0_0)] px-1.5 py-0.5">
+                  COMING SOON
+                </span>
+              </div>
+              <p className="mt-2 font-mono text-[10px] text-[oklch(0.45_0_0)]">
+                PayPal checkout can be added later for clients who prefer it.
+              </p>
             </div>
           </div>
         </div>

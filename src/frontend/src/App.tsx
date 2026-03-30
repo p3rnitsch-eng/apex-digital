@@ -6,15 +6,22 @@ import Footer from "./components/Footer";
 import HeroSection from "./components/HeroSection";
 import Navigation from "./components/Navigation";
 import PricingSection from "./components/PricingSection";
+import QuotePage from "./components/QuotePage";
 import TechnologySection from "./components/TechnologySection";
 import WhatWeDoSection from "./components/WhatWeDoSection";
+import WhyChangesEverythingSection from "./components/WhyChangesEverythingSection";
 import WhyUsSection from "./components/WhyUsSection";
 
 const isAdminRoute = window.location.pathname === "/admin";
+const isQuoteRoute = window.location.pathname.startsWith("/pay/");
 
 export default function App() {
   if (isAdminRoute) {
     return <AdminPanel />;
+  }
+
+  if (isQuoteRoute) {
+    return <QuotePage />;
   }
 
   return (
@@ -26,6 +33,7 @@ export default function App() {
         <DifferentiatorSection />
         <WhatWeDoSection />
         <WhyUsSection />
+        <WhyChangesEverythingSection />
         <PricingSection />
         <TechnologySection />
         <ContactSection />

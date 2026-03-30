@@ -1,4 +1,4 @@
-import { ArrowRight, Code2, Layers, Lightbulb } from "lucide-react";
+import { ArrowRight, Code2, Globe, Layers, Lightbulb } from "lucide-react";
 import { motion } from "motion/react";
 
 const services = [
@@ -19,6 +19,12 @@ const services = [
     title: "Engineering & Development",
     description:
       "Stable systems built without the usual complexity, plugins, or fragile stacks.",
+  },
+  {
+    icon: Globe,
+    title: "On-Chain Deployment",
+    description:
+      "Your site lives on the Internet Computer. No hosting account. No renewal fees. No single point of failure.",
   },
 ];
 
@@ -41,13 +47,13 @@ export default function WhatWeDoSection() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6, delay: 0.1 }}
-          className="font-display font-bold text-4xl md:text-6xl lg:text-7xl text-foreground mb-16 leading-none tracking-tight"
+          className="max-w-5xl font-display text-4xl font-bold uppercase leading-[0.94] tracking-tight text-foreground mb-16 md:text-6xl lg:text-7xl"
         >
           WHAT WE BUILD
         </motion.h2>
 
         <div
-          className="grid grid-cols-1 md:grid-cols-3 gap-6"
+          className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6"
           data-ocid="services.list"
         >
           {services.map((service, i) => {

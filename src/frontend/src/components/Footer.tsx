@@ -9,7 +9,6 @@ const navLinks = [
 
 export default function Footer() {
   const year = new Date().getFullYear();
-  const hostname = encodeURIComponent(window.location.hostname);
 
   const handleNav = (href: string) => {
     const id = href.slice(1);
@@ -24,7 +23,7 @@ export default function Footer() {
           <div>
             <div className="flex items-center gap-2 font-display font-bold text-xl mb-3">
               <span className="w-4 h-4 bg-orange rotate-45 inline-block" />
-              <span className="text-foreground">APEX</span>
+              <span className="text-foreground">APEX ARCHITECTS</span>
             </div>
             <p className="text-muted-foreground text-sm font-body max-w-xs leading-relaxed">
               Built once. Built properly. Simple if you need simple. Powerful if
@@ -93,18 +92,11 @@ export default function Footer() {
         {/* Bottom bar */}
         <div className="border-t border-[oklch(0.18_0_0)] pt-8 flex flex-col md:flex-row items-center justify-between gap-4">
           <p className="text-muted-foreground text-xs font-body">
-            &copy; {year} APEX Studio. All rights reserved.
+            &copy; {year} Apex Architects. All rights reserved.
           </p>
           <p className="text-muted-foreground text-xs font-body">
-            Built with ♥ using{" "}
-            <a
-              href={`https://caffeine.ai?utm_source=caffeine-footer&utm_medium=referral&utm_content=${hostname}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-orange hover:underline"
-            >
-              caffeine.ai
-            </a>
+            Unstoppable infrastructure —{" "}
+            <span className="text-orange">Internet Computer Protocol</span>
           </p>
         </div>
       </div>
