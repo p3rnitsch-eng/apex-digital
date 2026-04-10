@@ -4,5 +4,21 @@ build:
   steps:
     - type: script
       commands:
-        - $MOC_PATH --implicit-package core --default-persistent-actors -no-check-ir -E M0236 -E M0235 -E M0223 -E M0237 --actor-idl system-idl --package base $MOTOKO_BASE --package core $MOTOKO_CORE main.mo -o backend.wasm
+        - |
+          DFX_CACHE_PATH="${DFX_CACHE_PATH:-$(dfx cache show 2>/dev/null)}"
+          MOC_BIN="${MOC_PATH:-$(command -v moc 2>/dev/null)}"
+          MOTOKO_BASE_PATH="${MOTOKO_BASE:-$DFX_CACHE_PATH/base}"
+          MOTOKO_CORE_PATH="${MOTOKO_CORE:-$DFX_CACHE_PATH/core}"
+
+          if [ -z "$MOC_BIN" ] || [ ! -x "$MOC_BIN" ]; then
+            echo "Unable to find a Motoko compiler. Install dfx or set MOC_PATH." >&2
+            exit 1
+          fi
+
+          if [ ! -d "$MOTOKO_BASE_PATH" ] || [ ! -d "$MOTOKO_CORE_PATH" ]; then
+            echo "Unable to find Motoko base/core packages. Check dfx cache or set MOTOKO_BASE and MOTOKO_CORE." >&2
+            exit 1
+          fi
+
+          "$MOC_BIN" --implicit-package core --default-persistent-actors -no-check-ir -E M0236 -E M0235 -E M0223 -E M0237 --actor-idl system-idl --package base "$MOTOKO_BASE_PATH" --package core "$MOTOKO_CORE_PATH" main.mo -o backend.wasm
         - mv backend.wasm "$ICP_WASM_OUTPUT_PATH"
