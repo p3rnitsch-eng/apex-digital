@@ -4,27 +4,51 @@ import { motion } from "motion/react";
 const reasons = [
   {
     icon: Server,
-    title: "Built as One System",
-    description:
-      "No separate backend, database, or API glue. Everything runs together cleanly.",
+    title: "Fewer moving parts",
+    lines: ["No plugins. No patchwork. No fragile setup."],
+    emphasis: "",
   },
   {
     icon: Lock,
-    title: "Secure by Design",
-    description:
-      "No servers to attack. No plugins to exploit. Security is not added. It is built in.",
+    title: "Built to stay up",
+    lines: ["Runs on infrastructure designed not to fail."],
+    emphasis: "",
   },
   {
     icon: Wrench,
-    title: "Upgrades Without Data Loss",
-    description:
-      "The Internet Computer can be updated without losing site data, unlike traditional websites that risk breaking state during major changes.",
+    title: "Less to manage",
+    lines: ["No maintenance routine. No cleanup. No stress."],
+    emphasis: "",
   },
 ];
 
+function emphasizeLine(line: string, emphasis: string) {
+  if (!emphasis) {
+    return line;
+  }
+
+  const index = line.toLowerCase().indexOf(emphasis.toLowerCase());
+
+  if (index === -1) {
+    return line;
+  }
+
+  const before = line.slice(0, index);
+  const match = line.slice(index, index + emphasis.length);
+  const after = line.slice(index + emphasis.length);
+
+  return (
+    <>
+      {before}
+      <strong className="font-semibold text-foreground">{match}</strong>
+      {after}
+    </>
+  );
+}
+
 export default function WhyUsSection() {
   return (
-    <section id="why-us" className="py-28 md:py-36 relative">
+    <section id="why-us" className="py-20 md:py-22 relative">
       <div className="absolute inset-0 dot-grid-bg opacity-40" />
 
       <div className="relative mx-auto max-w-7xl px-6">
@@ -43,9 +67,11 @@ export default function WhyUsSection() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6, delay: 0.1 }}
-          className="max-w-5xl font-display text-4xl font-bold uppercase leading-[0.94] tracking-tight text-foreground md:text-6xl lg:text-7xl mb-16"
+          className="max-w-5xl font-display text-4xl font-bold uppercase leading-[0.94] tracking-tight text-foreground md:text-6xl lg:text-7xl mb-12"
         >
-          WHY THIS IS DIFFERENT
+          BUILT DIFFERENT FROM
+          <br />
+          THE START.
         </motion.h2>
 
         <div
@@ -70,13 +96,26 @@ export default function WhyUsSection() {
                 <h3 className="font-display font-bold text-lg text-foreground mb-3">
                   {reason.title}
                 </h3>
-                <p className="text-muted-foreground text-sm leading-relaxed font-body">
-                  {reason.description}
-                </p>
+                <div className="space-y-1 text-muted-foreground text-sm leading-relaxed font-body">
+                  {reason.lines.map((line) => (
+                    <p key={line}>{emphasizeLine(line, reason.emphasis)}</p>
+                  ))}
+                </div>
               </motion.div>
             );
           })}
         </div>
+
+        <motion.p
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5, delay: 0.35 }}
+          className="mt-8 max-w-xl font-body text-sm leading-7 text-[oklch(0.56_0_0)]"
+        >
+          You&apos;re not maintaining a website. You&apos;re running your
+          business.
+        </motion.p>
       </div>
     </section>
   );

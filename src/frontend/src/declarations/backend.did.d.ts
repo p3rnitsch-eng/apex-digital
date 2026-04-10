@@ -73,21 +73,81 @@ export interface AdminDashboard {
   'contacts' : Array<Contact>,
   'stats' : AdminStats,
 }
+export interface TrackedCanisterStatus {
+  'name' : string,
+  'canisterId' : string,
+  'kind' : string,
+  'siteUrl' : string,
+  'status' : string,
+  'cycles' : [] | [bigint],
+  'memorySize' : [] | [bigint],
+  'idleCyclesBurnedPerDay' : [] | [bigint],
+  'error' : [] | [string],
+}
+export interface TrackedCanisterInput {
+  'name' : string,
+  'canisterId' : string,
+  'kind' : string,
+  'siteUrl' : string,
+}
+export interface OpsDashboard {
+  'ownCycles' : bigint,
+  'tracked' : Array<TrackedCanisterStatus>,
+}
+export interface TrackedCanister {
+  'id' : string,
+  'displayName' : string,
+  'network' : string,
+  'canisterId' : string,
+  'kind' : string,
+  'siteUrl' : string,
+  'notes' : string,
+}
+export interface CanisterStatusSnapshot {
+  'canisterId' : string,
+  'fetchedAt' : bigint,
+  'status' : string,
+  'controllers' : Array<string>,
+  'balanceCycles' : bigint,
+  'idleBurnPerDay' : bigint,
+  'memorySizeBytes' : bigint,
+  'queryCount' : bigint,
+  'queryResponseBytes' : bigint,
+  'moduleHash' : string,
+  'error' : string,
+}
+export interface InfraRefreshState {
+  'refreshInProgress' : boolean,
+  'lastRefreshStartedAt' : [] | [bigint],
+  'lastRefreshCompletedAt' : [] | [bigint],
+  'lastRefreshStatus' : string,
+  'lastRefreshError' : string,
+}
 export interface _SERVICE {
   'adminGetDashboard' : ActorMethod<[string], AdminDashboard>,
+  'adminGetLatestCanisterSnapshots' : ActorMethod<[string], Array<CanisterStatusSnapshot>>,
+  'adminGetInfraRefreshState' : ActorMethod<[string], InfraRefreshState>,
+  'adminInspectCanisters' : ActorMethod<[string, Array<TrackedCanisterInput>], OpsDashboard>,
+  'adminDeleteTrackedCanister' : ActorMethod<[string, string], boolean>,
   'adminLogin' : ActorMethod<[string], [] | [string]>,
+  'adminListTrackedCanisters' : ActorMethod<[string], Array<TrackedCanister>>,
   'adminLogout' : ActorMethod<[string], undefined>,
+  'adminMarkInfraRefreshFinished' : ActorMethod<[string, string, string], boolean>,
+  'adminMarkInfraRefreshStarted' : ActorMethod<[string], boolean>,
   'adminCreateQuote' : ActorMethod<
     [string, string, string, string, [] | [bigint]],
     [] | [string]
   >,
   'adminDeleteContact' : ActorMethod<[string, bigint], boolean>,
   'adminDeleteProject' : ActorMethod<[string, string], boolean>,
+  'adminSaveCanisterSnapshot' : ActorMethod<[string, CanisterStatusSnapshot], boolean>,
   'adminUpdateProject' : ActorMethod<
     [string, string, string, string, [] | [bigint], [] | [string]],
     boolean
   >,
   'adminValidateSession' : ActorMethod<[string], boolean>,
+  'adminUpsertTrackedCanister' : ActorMethod<[string, TrackedCanister], boolean>,
+  'getCycles' : ActorMethod<[], bigint>,
   'getPublicQuote' : ActorMethod<[string, string], [] | [PublicQuote]>,
   'getContacts' : ActorMethod<[], Array<Contact>>,
   'getProjects' : ActorMethod<[], Array<ProjectSubmission>>,

@@ -1,0 +1,16 @@
+[
+  {
+    "match": "**/*",
+    "security_policy": "standard",
+    "headers": {
+      "Content-Security-Policy": "default-src 'self';script-src 'self';connect-src 'self' http://localhost:* https://icp0.io https://*.icp0.io https://icp-api.io https://ic-api.internetcomputer.org;img-src 'self' data:;style-src * 'unsafe-inline';style-src-elem * 'unsafe-inline';font-src *;object-src 'none';base-uri 'self';frame-ancestors 'none';form-action 'self';upgrade-insecure-requests;"
+    }
+  },
+  {
+    "match": "index.html",
+    "enable_aliasing": true,
+    "headers": {
+      "Cache-Control": "public, max-age=0, must-revalidate"
+    }
+  }
+]

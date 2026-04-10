@@ -1,3 +1,4 @@
+import BrandMark from "@/components/BrandMark";
 import { SiGithub, SiLinkedin, SiX } from "react-icons/si";
 
 const navLinks = [
@@ -21,9 +22,8 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-12 mb-12">
           {/* Logo & tagline */}
           <div>
-            <div className="flex items-center gap-2 font-display font-bold text-xl mb-3">
-              <span className="w-4 h-4 bg-orange rotate-45 inline-block" />
-              <span className="text-foreground">APEX ARCHITECTS</span>
+            <div className="mb-4">
+              <BrandMark className="h-12 w-auto shrink-0" />
             </div>
             <p className="text-muted-foreground text-sm font-body max-w-xs leading-relaxed">
               Built once. Built properly. Simple if you need simple. Powerful if

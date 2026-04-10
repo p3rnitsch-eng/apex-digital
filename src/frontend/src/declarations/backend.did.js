@@ -77,11 +77,69 @@ export const AdminDashboard = IDL.Record({
   'contacts': IDL.Vec(Contact),
   'stats': AdminStats,
 });
+export const TrackedCanisterStatus = IDL.Record({
+  'name': IDL.Text,
+  'canisterId': IDL.Text,
+  'kind': IDL.Text,
+  'siteUrl': IDL.Text,
+  'status': IDL.Text,
+  'cycles': IDL.Opt(IDL.Nat),
+  'memorySize': IDL.Opt(IDL.Nat),
+  'idleCyclesBurnedPerDay': IDL.Opt(IDL.Nat),
+  'error': IDL.Opt(IDL.Text),
+});
+export const TrackedCanisterInput = IDL.Record({
+  'name': IDL.Text,
+  'canisterId': IDL.Text,
+  'kind': IDL.Text,
+  'siteUrl': IDL.Text,
+});
+
+export const OpsDashboard = IDL.Record({
+  'ownCycles': IDL.Nat,
+  'tracked': IDL.Vec(TrackedCanisterStatus),
+});
+export const TrackedCanister = IDL.Record({
+  'id': IDL.Text,
+  'displayName': IDL.Text,
+  'network': IDL.Text,
+  'canisterId': IDL.Text,
+  'kind': IDL.Text,
+  'siteUrl': IDL.Text,
+  'notes': IDL.Text,
+});
+export const CanisterStatusSnapshot = IDL.Record({
+  'canisterId': IDL.Text,
+  'fetchedAt': IDL.Int,
+  'status': IDL.Text,
+  'controllers': IDL.Vec(IDL.Text),
+  'balanceCycles': IDL.Nat,
+  'idleBurnPerDay': IDL.Nat,
+  'memorySizeBytes': IDL.Nat,
+  'queryCount': IDL.Nat,
+  'queryResponseBytes': IDL.Nat,
+  'moduleHash': IDL.Text,
+  'error': IDL.Text,
+});
+export const InfraRefreshState = IDL.Record({
+  'refreshInProgress': IDL.Bool,
+  'lastRefreshStartedAt': IDL.Opt(IDL.Int),
+  'lastRefreshCompletedAt': IDL.Opt(IDL.Int),
+  'lastRefreshStatus': IDL.Text,
+  'lastRefreshError': IDL.Text,
+});
 
 export const idlService = IDL.Service({
   'adminGetDashboard': IDL.Func([IDL.Text], [AdminDashboard], []),
+  'adminGetLatestCanisterSnapshots': IDL.Func([IDL.Text], [IDL.Vec(CanisterStatusSnapshot)], []),
+  'adminGetInfraRefreshState': IDL.Func([IDL.Text], [InfraRefreshState], []),
+  'adminInspectCanisters': IDL.Func([IDL.Text, IDL.Vec(TrackedCanisterInput)], [OpsDashboard], []),
+  'adminDeleteTrackedCanister': IDL.Func([IDL.Text, IDL.Text], [IDL.Bool], []),
   'adminLogin': IDL.Func([IDL.Text], [IDL.Opt(IDL.Text)], []),
+  'adminListTrackedCanisters': IDL.Func([IDL.Text], [IDL.Vec(TrackedCanister)], []),
   'adminLogout': IDL.Func([IDL.Text], [], []),
+  'adminMarkInfraRefreshFinished': IDL.Func([IDL.Text, IDL.Text, IDL.Text], [IDL.Bool], []),
+  'adminMarkInfraRefreshStarted': IDL.Func([IDL.Text], [IDL.Bool], []),
   'adminCreateQuote': IDL.Func(
     [IDL.Text, IDL.Text, IDL.Text, IDL.Text, IDL.Opt(IDL.Int)],
     [IDL.Opt(IDL.Text)],
@@ -89,12 +147,15 @@ export const idlService = IDL.Service({
   ),
   'adminDeleteContact': IDL.Func([IDL.Text, IDL.Int], [IDL.Bool], []),
   'adminDeleteProject': IDL.Func([IDL.Text, IDL.Text], [IDL.Bool], []),
+  'adminSaveCanisterSnapshot': IDL.Func([IDL.Text, CanisterStatusSnapshot], [IDL.Bool], []),
   'adminUpdateProject': IDL.Func(
     [IDL.Text, IDL.Text, IDL.Text, IDL.Text, IDL.Opt(IDL.Int), IDL.Opt(IDL.Text)],
     [IDL.Bool],
     [],
   ),
   'adminValidateSession': IDL.Func([IDL.Text], [IDL.Bool], []),
+  'adminUpsertTrackedCanister': IDL.Func([IDL.Text, TrackedCanister], [IDL.Bool], []),
+  'getCycles': IDL.Func([], [IDL.Nat], ['query']),
   'getPublicQuote': IDL.Func([IDL.Text, IDL.Text], [IDL.Opt(PublicQuote)], ['query']),
   'getContacts': IDL.Func([], [IDL.Vec(Contact)], ['query']),
   'getProjects': IDL.Func([], [IDL.Vec(ProjectSubmission)], ['query']),
@@ -198,11 +259,68 @@ export const idlFactory = ({ IDL }) => {
     'contacts': IDL.Vec(Contact),
     'stats': AdminStats,
   });
+  const TrackedCanisterStatus = IDL.Record({
+    'name': IDL.Text,
+    'canisterId': IDL.Text,
+    'kind': IDL.Text,
+    'siteUrl': IDL.Text,
+    'status': IDL.Text,
+    'cycles': IDL.Opt(IDL.Nat),
+    'memorySize': IDL.Opt(IDL.Nat),
+    'idleCyclesBurnedPerDay': IDL.Opt(IDL.Nat),
+    'error': IDL.Opt(IDL.Text),
+  });
+  const TrackedCanisterInput = IDL.Record({
+    'name': IDL.Text,
+    'canisterId': IDL.Text,
+    'kind': IDL.Text,
+    'siteUrl': IDL.Text,
+  });
+  const OpsDashboard = IDL.Record({
+    'ownCycles': IDL.Nat,
+    'tracked': IDL.Vec(TrackedCanisterStatus),
+  });
+  const TrackedCanister = IDL.Record({
+    'id': IDL.Text,
+    'displayName': IDL.Text,
+    'network': IDL.Text,
+    'canisterId': IDL.Text,
+    'kind': IDL.Text,
+    'siteUrl': IDL.Text,
+    'notes': IDL.Text,
+  });
+  const CanisterStatusSnapshot = IDL.Record({
+    'canisterId': IDL.Text,
+    'fetchedAt': IDL.Int,
+    'status': IDL.Text,
+    'controllers': IDL.Vec(IDL.Text),
+    'balanceCycles': IDL.Nat,
+    'idleBurnPerDay': IDL.Nat,
+    'memorySizeBytes': IDL.Nat,
+    'queryCount': IDL.Nat,
+    'queryResponseBytes': IDL.Nat,
+    'moduleHash': IDL.Text,
+    'error': IDL.Text,
+  });
+  const InfraRefreshState = IDL.Record({
+    'refreshInProgress': IDL.Bool,
+    'lastRefreshStartedAt': IDL.Opt(IDL.Int),
+    'lastRefreshCompletedAt': IDL.Opt(IDL.Int),
+    'lastRefreshStatus': IDL.Text,
+    'lastRefreshError': IDL.Text,
+  });
 
   return IDL.Service({
     'adminGetDashboard': IDL.Func([IDL.Text], [AdminDashboard], []),
+    'adminGetLatestCanisterSnapshots': IDL.Func([IDL.Text], [IDL.Vec(CanisterStatusSnapshot)], []),
+    'adminGetInfraRefreshState': IDL.Func([IDL.Text], [InfraRefreshState], []),
+    'adminInspectCanisters': IDL.Func([IDL.Text, IDL.Vec(TrackedCanisterInput)], [OpsDashboard], []),
+    'adminDeleteTrackedCanister': IDL.Func([IDL.Text, IDL.Text], [IDL.Bool], []),
     'adminLogin': IDL.Func([IDL.Text], [IDL.Opt(IDL.Text)], []),
+    'adminListTrackedCanisters': IDL.Func([IDL.Text], [IDL.Vec(TrackedCanister)], []),
     'adminLogout': IDL.Func([IDL.Text], [], []),
+    'adminMarkInfraRefreshFinished': IDL.Func([IDL.Text, IDL.Text, IDL.Text], [IDL.Bool], []),
+    'adminMarkInfraRefreshStarted': IDL.Func([IDL.Text], [IDL.Bool], []),
     'adminCreateQuote': IDL.Func(
       [IDL.Text, IDL.Text, IDL.Text, IDL.Text, IDL.Opt(IDL.Int)],
       [IDL.Opt(IDL.Text)],
@@ -210,12 +328,15 @@ export const idlFactory = ({ IDL }) => {
     ),
     'adminDeleteContact': IDL.Func([IDL.Text, IDL.Int], [IDL.Bool], []),
     'adminDeleteProject': IDL.Func([IDL.Text, IDL.Text], [IDL.Bool], []),
+    'adminSaveCanisterSnapshot': IDL.Func([IDL.Text, CanisterStatusSnapshot], [IDL.Bool], []),
     'adminUpdateProject': IDL.Func(
       [IDL.Text, IDL.Text, IDL.Text, IDL.Text, IDL.Opt(IDL.Int), IDL.Opt(IDL.Text)],
       [IDL.Bool],
       [],
     ),
     'adminValidateSession': IDL.Func([IDL.Text], [IDL.Bool], []),
+    'adminUpsertTrackedCanister': IDL.Func([IDL.Text, TrackedCanister], [IDL.Bool], []),
+    'getCycles': IDL.Func([], [IDL.Nat], ['query']),
     'getPublicQuote': IDL.Func([IDL.Text, IDL.Text], [IDL.Opt(PublicQuote)], ['query']),
     'getContacts': IDL.Func([], [IDL.Vec(Contact)], ['query']),
     'getProjects': IDL.Func([], [IDL.Vec(ProjectSubmission)], ['query']),

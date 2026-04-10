@@ -1,41 +1,45 @@
 import { Toaster } from "@/components/ui/sonner";
 import AdminPanel from "./components/AdminPanel";
 import ContactSection from "./components/ContactSection";
-import DifferentiatorSection from "./components/DifferentiatorSection";
 import Footer from "./components/Footer";
 import HeroSection from "./components/HeroSection";
 import Navigation from "./components/Navigation";
 import PricingSection from "./components/PricingSection";
-import QuotePage from "./components/QuotePage";
+import ProofSection from "./components/ProofSection";
+import SeoMetadata from "./components/SeoMetadata";
+import TestimonialsSection from "./components/TestimonialsSection";
 import TechnologySection from "./components/TechnologySection";
 import WhatWeDoSection from "./components/WhatWeDoSection";
 import WhyChangesEverythingSection from "./components/WhyChangesEverythingSection";
+import WhyWebsitesBreakSection from "./components/WhyWebsitesBreakSection";
 import WhyUsSection from "./components/WhyUsSection";
 
 const isAdminRoute = window.location.pathname === "/admin";
-const isQuoteRoute = window.location.pathname.startsWith("/pay/");
 
 export default function App() {
   if (isAdminRoute) {
-    return <AdminPanel />;
-  }
-
-  if (isQuoteRoute) {
-    return <QuotePage />;
+    return (
+      <>
+        <SeoMetadata />
+        <AdminPanel />
+      </>
+    );
   }
 
   return (
     <div className="relative min-h-screen bg-background text-foreground overflow-x-hidden">
-      <div className="noise-bg" />
+      <SeoMetadata />
       <Navigation />
       <main>
         <HeroSection />
-        <DifferentiatorSection />
-        <WhatWeDoSection />
+        <WhyWebsitesBreakSection />
         <WhyUsSection />
+        <WhatWeDoSection />
+        <ProofSection />
         <WhyChangesEverythingSection />
         <PricingSection />
         <TechnologySection />
+        <TestimonialsSection />
         <ContactSection />
       </main>
       <Footer />

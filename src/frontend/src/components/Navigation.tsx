@@ -1,39 +1,34 @@
+import BrandMark from "@/components/BrandMark";
 import { Button } from "@/components/ui/button";
-import { Menu, X } from "lucide-react";
-import { AnimatePresence, motion } from "motion/react";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { LayoutGrid } from "lucide-react";
 import { useEffect, useState } from "react";
 
 const links = [
-  { label: "WHAT WE DO", href: "#what-we-do" },
-  { label: "WHY US", href: "#why-us" },
-  { label: "PRICING", href: "#pricing" },
-  { label: "CONTACT", href: "#contact" },
+  { label: "What We Do", href: "#what-we-do" },
+  { label: "Built Different", href: "#why-us" },
+  { label: "Real Difference", href: "#real-cost" },
+  { label: "Pricing", href: "#pricing" },
+  { label: "Infrastructure", href: "#technology" },
+  { label: "Testimonials", href: "#testimonials" },
+  { label: "Contact", href: "#contact" },
 ];
 
 export default function Navigation() {
   const [scrolled, setScrolled] = useState(false);
-  const [active, setActive] = useState("");
-  const [menuOpen, setMenuOpen] = useState(false);
 
   useEffect(() => {
-    const handleScroll = () => {
-      setScrolled(window.scrollY > 40);
-      const sections = links.map((l) => l.href.slice(1));
-      for (const id of [...sections].reverse()) {
-        const el = document.getElementById(id);
-        if (el && window.scrollY >= el.offsetTop - 120) {
-          setActive(`#${id}`);
-          return;
-        }
-      }
-      setActive("");
-    };
+    const handleScroll = () => setScrolled(window.scrollY > 40);
     window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   const handleNav = (href: string) => {
-    setMenuOpen(false);
     const id = href.slice(1);
     setTimeout(() => {
       document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
@@ -42,101 +37,50 @@ export default function Navigation() {
 
   return (
     <header
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+      className={`fixed left-0 right-0 top-0 z-50 transition-all duration-300 ${
         scrolled
-          ? "bg-[oklch(0.08_0_0/0.85)] backdrop-blur-md border-b border-[oklch(0.22_0_0)]"
+          ? "border-b border-[oklch(0.14_0_0)] bg-[oklch(0.05_0_0/0.9)] backdrop-blur-md"
           : "bg-transparent"
       }`}
     >
-      <nav className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
-        {/* Logo */}
+      <nav className="mx-auto flex h-20 max-w-7xl items-center justify-between px-6">
         <button
           type="button"
           onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-          className="flex items-center gap-2 font-display font-bold text-xl tracking-tight"
+          className="flex items-center"
           data-ocid="nav.link"
         >
-          <span className="w-5 h-5 bg-orange rotate-45 inline-block" />
-          <span className="text-foreground">APEX ARCHITECTS</span>
+          <BrandMark className="h-14 w-auto shrink-0" />
         </button>
 
-        {/* Desktop Links */}
-        <ul className="hidden md:flex items-center gap-8">
-          {links.map((link) => (
-            <li key={link.href}>
-              <button
-                type="button"
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <button
+              type="button"
+              className="inline-flex h-10 w-10 items-center justify-center text-foreground transition-colors hover:text-orange"
+              data-ocid="nav.toggle"
+            >
+              <LayoutGrid className="h-4 w-4" />
+            </button>
+          </DropdownMenuTrigger>
+
+          <DropdownMenuContent
+            align="end"
+            className="w-56 rounded-none border-[oklch(0.14_0_0)] bg-[oklch(0.055_0_0/0.98)] p-2"
+          >
+            {links.map((link) => (
+              <DropdownMenuItem
+                key={link.href}
                 onClick={() => handleNav(link.href)}
+                className="rounded-none px-3 py-2.5 font-body text-sm text-[oklch(0.72_0_0)] hover:text-foreground focus:text-foreground"
                 data-ocid="nav.link"
-                className={`font-mono-label text-xs transition-colors duration-200 ${
-                  active === link.href
-                    ? "text-orange border-b-2 border-orange pb-0.5"
-                    : "text-muted-foreground hover:text-foreground"
-                }`}
               >
                 {link.label}
-              </button>
-            </li>
-          ))}
-        </ul>
-
-        {/* Right side: CTA */}
-        <div className="hidden md:flex items-center gap-3">
-          <Button
-            onClick={() => handleNav("#contact")}
-            data-ocid="nav.primary_button"
-            className="bg-orange hover:bg-[oklch(0.6_0.22_37)] text-white font-display font-bold text-sm tracking-wider px-6 rounded-none border-0"
-          >
-            GET STARTED
-          </Button>
-        </div>
-
-        {/* Mobile Hamburger */}
-        <button
-          type="button"
-          className="md:hidden text-foreground"
-          onClick={() => setMenuOpen(!menuOpen)}
-          data-ocid="nav.toggle"
-        >
-          {menuOpen ? <X size={24} /> : <Menu size={24} />}
-        </button>
+              </DropdownMenuItem>
+            ))}
+          </DropdownMenuContent>
+        </DropdownMenu>
       </nav>
-
-      {/* Mobile Menu */}
-      <AnimatePresence>
-        {menuOpen && (
-          <motion.div
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: "auto" }}
-            exit={{ opacity: 0, height: 0 }}
-            className="md:hidden bg-[oklch(0.10_0_0)] border-b border-[oklch(0.22_0_0)]"
-          >
-            <ul className="flex flex-col px-6 py-4 gap-4">
-              {links.map((link) => (
-                <li key={link.href}>
-                  <button
-                    type="button"
-                    onClick={() => handleNav(link.href)}
-                    className="font-mono-label text-xs text-muted-foreground hover:text-orange transition-colors"
-                    data-ocid="nav.link"
-                  >
-                    {link.label}
-                  </button>
-                </li>
-              ))}
-              <li className="flex flex-col gap-3">
-                <Button
-                  onClick={() => handleNav("#contact")}
-                  className="w-full bg-orange text-white font-display font-bold text-sm rounded-none"
-                  data-ocid="nav.primary_button"
-                >
-                  GET STARTED
-                </Button>
-              </li>
-            </ul>
-          </motion.div>
-        )}
-      </AnimatePresence>
     </header>
   );
 }

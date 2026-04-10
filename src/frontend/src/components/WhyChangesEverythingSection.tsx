@@ -2,189 +2,146 @@ import { motion } from "motion/react";
 
 const comparisonRows = [
   {
-    label: "Upfront cost",
-    old: "$40",
-    next: "From $400",
+    label: "Cost model",
+    cheap: "Starts cheap, grows over time",
+    apex: "Fixed upfront",
   },
   {
-    label: "Monthly hosting",
-    old: "$10-50/mo",
-    next: "Cycles, pennies a year",
-    nextTone: "text-orange",
+    label: "Hosting",
+    cheap: "Monthly fees",
+    apex: "None",
   },
   {
-    label: "Plugin / update maintenance",
-    old: "Ongoing",
-    next: "None",
-    nextTone: "text-orange",
+    label: "Maintenance",
+    cheap: "Plugins, updates, fixes",
+    apex: "None",
   },
   {
-    label: "Can the host pull it down?",
-    old: "Yes",
-    next: "No",
-    nextTone: "text-orange",
+    label: "Reliability",
+    cheap: "Can break or go down",
+    apex: "Built to stay up",
   },
   {
-    label: "Verifiable on-chain",
-    old: "No",
-    next: "Yes",
-    nextTone: "text-orange",
+    label: "Security",
+    cheap: "Your responsibility",
+    apex: "Secure by design",
   },
   {
-    label: "Typical 3-year total",
-    old: "$800-2,000+",
-    oldTone: "text-red-400",
-    next: "What you paid. Nothing more.",
-    nextTone: "text-orange",
-    isFinal: true,
+    label: "Long-term cost",
+    cheap: "Keeps increasing",
+    apex: "What you pay is what it costs",
   },
 ];
 
 export default function WhyChangesEverythingSection() {
   return (
-    <section id="real-cost" className="relative py-28 md:py-36">
-      <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-orange to-transparent opacity-80" />
-      <div className="absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-orange to-transparent opacity-80" />
-
+    <section id="real-cost" className="relative bg-[oklch(0.05_0_0)] py-20 md:py-24">
       <div className="mx-auto max-w-7xl px-6">
         <motion.p
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 28 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.5 }}
-          className="mb-4 font-mono-label text-orange"
+          transition={{ duration: 0.6 }}
+          className="font-mono-label text-orange"
         >
-          THE REAL COST
+          THE REAL DIFFERENCE
         </motion.p>
 
         <motion.h2
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.6, delay: 0.1 }}
-          className="max-w-[68rem] font-display text-[clamp(2.9rem,6vw,5.2rem)] font-bold uppercase leading-[0.92] tracking-tight text-foreground"
+          transition={{ duration: 0.6, delay: 0.08 }}
+          className="mt-5 max-w-5xl font-display text-4xl font-bold uppercase leading-[0.94] tracking-tight text-foreground md:text-6xl lg:text-7xl"
         >
-          <span className="block md:whitespace-nowrap">
-            THE $40 WEBSITE COSTS MORE
-          </span>
-          <span className="block text-orange">THAN YOU THINK.</span>
+          THE $40 WEBSITE COSTS MORE THAN YOU THINK.
         </motion.h2>
 
         <motion.p
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.5, delay: 0.2 }}
-          className="mt-8 max-w-2xl font-body text-lg leading-8 text-[oklch(0.62_0_0)]"
+          transition={{ duration: 0.5, delay: 0.16 }}
+          className="mt-6 max-w-2xl font-body text-base leading-7 text-[oklch(0.58_0_0)]"
         >
-          Cheap websites are only cheap to start. By year three, many small
-          businesses have spent far more on hosting, emergency fixes, plugin
-          updates, and rebuilds than they would have paid to build it properly
-          in the first place.
+          Most websites look similar. What matters is what happens after
+          launch.
         </motion.p>
 
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
+          initial={{ opacity: 0, y: 28 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.6, delay: 0.25 }}
-          className="mt-14 max-w-[58rem] overflow-hidden border border-[oklch(0.18_0_0)]"
+          transition={{ duration: 0.6, delay: 0.22 }}
+          className="mt-12 overflow-hidden border border-[oklch(0.1_0_0)] bg-[oklch(0.055_0_0)]"
         >
-          <div className="grid grid-cols-[1.15fr_0.92fr_0.93fr] border-b border-[oklch(0.22_0_0)] bg-[oklch(0.16_0_0)]">
-            <div className="border-r border-[oklch(0.22_0_0)] px-4 py-3.5">
-              <p className="font-mono-label text-[10px] tracking-[0.22em] text-[oklch(0.62_0_0)]">
-                WHAT YOU&apos;RE COMPARING
+          <div className="grid grid-cols-[200px_1fr_1fr] border-b border-[rgba(255,255,255,0.06)] px-6 py-5 md:px-8">
+            <div />
+            <div className="flex min-h-[5.25rem] flex-col justify-start pr-6">
+              <p className="font-display text-2xl font-semibold tracking-tight text-[oklch(0.74_0_0)] md:text-3xl">
+                $40 Website
+              </p>
+              <p className="mt-2 font-body text-sm text-[oklch(0.46_0_0)]">
+                Wix / WordPress / Squarespace
               </p>
             </div>
-            <div className="border-r border-[oklch(0.22_0_0)] px-4 py-3.5 text-center">
-              <p className="font-mono-label text-[10px] tracking-[0.22em] text-[oklch(0.62_0_0)]">
-                $40 FIVERR SITE
+            <div className="flex min-h-[5.25rem] flex-col justify-start bg-[rgba(255,120,0,0.02)] pl-6">
+              <p className="font-display text-2xl font-semibold tracking-tight text-foreground md:text-3xl">
+                Apex
               </p>
-            </div>
-            <div className="px-4 py-3.5 text-center">
-              <p className="font-mono-label text-[10px] tracking-[0.22em] text-orange">
-                APEX ON ICP
+              <p className="mt-2 font-body text-sm text-[oklch(0.72_0.02_80)]">
+                Built on the Internet Computer
               </p>
             </div>
           </div>
 
-          {comparisonRows.map((row) => (
-            <div
-              key={row.label}
-              className={`grid grid-cols-[1.15fr_0.92fr_0.93fr] ${
-                row.isFinal ? "bg-[oklch(0.095_0.005_40)]" : "bg-[oklch(0.08_0_0)]"
-              }`}
-            >
-              <div className="border-r border-t border-[oklch(0.14_0_0)] px-4 py-3.5">
-                <p
-                  className={`font-body text-[13px] leading-snug ${
-                    row.isFinal ? "font-semibold text-foreground" : "text-[oklch(0.68_0_0)]"
-                  }`}
-                >
-                  {row.label}
-                </p>
+          <div className="px-6 md:px-8">
+            {comparisonRows.map((row, index) => (
+              <div
+                key={row.label}
+                className={`grid grid-cols-[200px_1fr_1fr] items-start py-[14px] ${
+                  index !== comparisonRows.length - 1
+                    ? "border-b border-[rgba(255,255,255,0.06)]"
+                    : ""
+                }`}
+              >
+                <div className="pr-5">
+                  <p className="font-body text-sm text-[rgba(255,255,255,0.6)] md:text-[0.95rem]">
+                    {row.label}
+                  </p>
+                </div>
+                <div className="pr-6">
+                  <p className="font-body text-sm leading-6 text-[oklch(0.56_0_0)] md:text-[0.98rem]">
+                    {row.cheap}
+                  </p>
+                </div>
+                <div className="bg-[rgba(255,120,0,0.02)] pl-6">
+                  <p
+                    className={`font-body text-sm leading-6 text-foreground md:text-[0.98rem] ${
+                      row.label === "Long-term cost" ? "font-semibold" : "font-medium"
+                    }`}
+                  >
+                    {row.apex}
+                  </p>
+                </div>
               </div>
-              <div className="border-r border-t border-[oklch(0.14_0_0)] px-4 py-3.5 text-center">
-                <p
-                  className={`font-body text-[13px] leading-snug ${
-                    row.oldTone ?? "text-[oklch(0.56_0_0)]"
-                  }`}
-                >
-                  {row.old}
-                </p>
-              </div>
-              <div className="border-t border-[oklch(0.14_0_0)] px-4 py-3.5 text-center">
-                <p
-                  className={`font-body text-[13px] leading-snug ${
-                    row.nextTone ?? "text-foreground"
-                  } ${row.isFinal ? "font-semibold" : ""}`}
-                >
-                  {row.next}
-                </p>
-              </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </motion.div>
 
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
+          initial={{ opacity: 0, y: 18 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.6, delay: 0.35 }}
-          className="mt-14 max-w-[54rem] border border-[oklch(0.18_0_0)] bg-[oklch(0.08_0_0)] px-8 py-10 md:px-10 md:py-11"
+          transition={{ duration: 0.45, delay: 0.28 }}
+          className="mt-7"
         >
-          <div className="grid items-center gap-8 lg:grid-cols-[minmax(0,1fr)_260px]">
-            <div className="max-w-[31rem]">
-              <p className="font-mono-label text-orange">
-                VERIFY IT YOURSELF
-              </p>
-              <h3 className="mt-5 max-w-xl font-display text-4xl font-bold uppercase leading-[0.94] tracking-tight text-foreground md:text-6xl">
-                THIS SITE IS
-                <br />
-                THE PROOF.
-              </h3>
-              <p className="mt-6 max-w-md font-body text-[oklch(0.56_0_0)] text-lg leading-[1.65]">
-                You&apos;re not looking at a demo. This website runs entirely on
-                the Internet Computer. No AWS, no Cloudflare, no hosting panel.
-                Click to inspect our canister on the public ICP dashboard.
-              </p>
-              <p className="mt-7 max-w-sm text-[oklch(0.4_0_0)] text-[12px] leading-7 tracking-[0.08em] [font-family:'Courier_New',monospace]">
-                Canister ID: r5jz6-caaaa-aaaai-q727a-cai
-              </p>
-            </div>
-
-            <div className="flex items-center lg:justify-end">
-              <a
-                href="https://dashboard.internetcomputer.org/canister/r5jz6-caaaa-aaaai-q727a-cai"
-                target="_blank"
-                rel="noreferrer"
-                className="inline-flex min-h-[58px] w-full items-center justify-center bg-orange px-5 py-3 text-center font-display text-sm font-bold uppercase tracking-[0.14em] text-black transition-colors hover:bg-[oklch(0.6_0.22_37)] lg:max-w-[260px]"
-              >
-                VIEW ON-CHAIN
-                <span className="ml-2 text-xl leading-none">→</span>
-              </a>
-            </div>
-          </div>
+          <p className="font-display text-2xl font-bold tracking-tight text-foreground md:text-3xl">
+            One keeps costing you.
+          </p>
+          <p className="mt-2 font-display text-2xl font-semibold tracking-tight text-orange md:text-3xl">
+            One is done properly from day one.
+          </p>
         </motion.div>
       </div>
     </section>

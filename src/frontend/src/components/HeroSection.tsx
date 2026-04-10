@@ -1,4 +1,5 @@
 import { Badge } from "@/components/ui/badge";
+import { BackgroundPaths } from "@/components/ui/background-paths";
 import { Button } from "@/components/ui/button";
 import { useICPStats } from "@/hooks/useICPStats";
 import { ArrowRight, ChevronDown } from "lucide-react";
@@ -130,16 +131,11 @@ export default function HeroSection() {
         style={{ zIndex: 0 }}
       />
 
-      <div
-        className="absolute inset-0 pointer-events-none"
-        style={{
-          background:
-            "radial-gradient(ellipse 80% 60% at 50% 50%, transparent 30%, oklch(0.08 0 0) 100%)",
-          zIndex: 1,
-        }}
-      />
+      <div className="absolute inset-0 pointer-events-none" style={{ zIndex: 1 }}>
+        <BackgroundPaths />
+      </div>
 
-      <div className="relative z-10 max-w-7xl mx-auto px-6 pt-24 pb-32 flex flex-col items-start w-full">
+      <div className="relative z-10 max-w-7xl mx-auto px-6 pt-32 md:pt-36 pb-32 flex flex-col items-start w-full">
         {/* Live ICP Status Badge */}
         <motion.div
           initial={{ opacity: 0, y: -10 }}
@@ -212,8 +208,8 @@ export default function HeroSection() {
           transition={{ duration: 0.6, delay: 0.8 }}
           className="text-muted-foreground text-base md:text-lg max-w-xl mb-10 font-body leading-relaxed"
         >
-          A new kind of internet where your website runs without servers,
-          plugins, or ongoing maintenance.
+          A modern website that runs without plugins, hosting issues, or
+          constant maintenance.
         </motion.p>
 
         <motion.div
@@ -254,7 +250,7 @@ export default function HeroSection() {
           transition={{ duration: 0.5, delay: 1.2 }}
           className="font-mono-label text-muted-foreground/60 text-xs"
         >
-          Runs entirely on-chain. No servers. No maintenance headaches.
+          No servers. No plugins. No ongoing headaches.
         </motion.p>
       </div>
 

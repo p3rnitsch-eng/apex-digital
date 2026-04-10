@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://r5jz6-caaaa-aaaai-q727a-cai.icp0.io/sitemap.xml
